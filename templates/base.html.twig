@@ -33,10 +33,10 @@
                         <a class="nav-link {{app.current_route starts with 'ride.' ? 'active' : ''}}" href="{{ path('ride.index') }}">Covoiturages</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">À propos</a>
+                        <a class="nav-link {{app.current_route == 'about' ? 'active' : ''}}" href="#">À propos</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link {{app.current_route == 'contact' ? 'active' : ''}}" href="{{ path('contact') }}">Contact</a>
                       </li>
                     </ul>
                 </div>
