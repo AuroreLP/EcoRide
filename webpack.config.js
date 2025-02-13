@@ -10,10 +10,19 @@ Encore.configureRuntimeEnvironment('development');
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
-    .addEntry('app', './assets/js/app.js')  // Le fichier d'entrée
+    .addEntry('app', './assets/app.js') // S'assure que 'app' existe bien
+    .enableSingleRuntimeChunk()
+    .cleanupOutputBeforeBuild()
+    .enableBuildNotifications()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
     .enableSassLoader()
+    .autoProvidejQuery()
     .enableVersioning();
 
 // Exporte la configuration générée par Encore
 module.exports = Encore.getWebpackConfig();
+
+Encore
+
 
