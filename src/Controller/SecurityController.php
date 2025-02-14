@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -29,5 +32,27 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+    #[Route('/verify-email', name: 'app_verify_email')]
+public function verifyEmail(Request $request, UserRepository $userRepository): Response
+{
+    $user = $userRepository->find($request->query->get('id'));
+
+    if (!$user) {
+        throw $this->createNotFoundException();
+    }
+
+    try {
+        $this->emailVerifier->handleEmailConfirmation($request, $user);
+    } catch (VerifyEmailExceptionInterface $exception) {
+        $this->addFlash('danger', $exception->getReason());
+
+        return $this->redirectToRoute('app_register');
+    }
+
+    $this->addFlash('success', 'Votre adresse email a été vérifiée. Vous pouvez maintenant vous connecter.');
+
+    return $this->redirectToRoute('app_login');
+}
 
 }

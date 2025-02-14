@@ -3,7 +3,75 @@
 {% block title %} EcoRide {% endblock %}
 
 {% block body %}
-<div class="container">
-HOME
-</div>
+<header>
+    <div class="position-relative text-center text-white">
+        <img src="/images/carpool-img.png" class="img-fluid w-100" alt="Image de covoiturage">
+        
+        <!-- Overlay avec fond sombre -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+    
+        <!-- Texte centré -->
+        <div class="position-absolute top-50 start-50 translate-middle w-75">
+            <h1 class="fw-bold">Seul, on va plus vite.</h1>
+            <h1 class="fw-bold">Ensemble, on va plus loin.</h1>
+        </div>
+    </div>
+  </header>
+<main>
+    <!-- Searching carpool -->
+    <section>
+            <div class="container p-4 rounded-4 z-1" id="search">
+                <div class="ride-search p-4 rounded-4 z-1">
+                    <form class="row g-1 justify-content-center">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Départ">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Destination">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" placeholder="Nombre de passagers">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-outline-light w-100">Rechercher</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </section>
+
+    <!-- article 1 -->
+    <article>
+        <div class="container mt-5">
+            <div class="row d-flex">
+                <div class="col-lg-4 p-2">
+                    <img class="img rounded" src="/images/carpool-img.png" alt="">
+                </div>
+                <div class="col-lg-8">
+                    <h3>EcoRide, pour des trajets plus écolos!</h3>
+                    <p>Eco Ride est une startup innovante qui révolutionne la mobilité durable en proposant un service de covoiturage axé sur l'écologie et la convivialité. Notre mission est de réduire l'empreinte carbone des déplacements quotidiens tout en favorisant des liens sociaux entre nos utilisateurs. Grâce à une application intuitive et des algorithmes intelligents, EcoRide met en relation des conducteurs et des passagers partageant des trajets similaires, optimisant ainsi les ressources et diminuant le nombre de véhicules sur les routes. En choisissant EcoRide, vous contribuez activement à un avenir plus vert, tout en économisant sur vos déplacements. Rejoignez notre communauté et embarquez pour un voyage vers une mobilité responsable !</p>
+                </div>
+            </div>
+        </div>
+    </article>
+    <!-- article 1 -->
+    <article>
+        <div class="container mt-5">
+            <div class="row d-flex">
+                <div class="col-lg-8">
+                    <h3>Votre sécurité est notre priorité</h3>
+                    <p>Chez EcoRide, la sécurité de nos utilisateurs est au cœur de nos priorités. Nous avons mis en place des mesures rigoureuses pour garantir une expérience de covoiturage fiable et sereine. Chaque utilisateur est tenu de vérifier son identité lors de l'inscription, et notre système évalue continuellement la fiabilité des membres grâce aux avis et retours de la communauté. 
+                    De plus, nous offrons des options personnalisées, telles que des trajets exclusivement réservés aux femmes, pour répondre aux besoins spécifiques de nos passagers et conductrices. 
+                    Avec EcoRide, voyagez en toute confiance, dans un environnement sûr et adapté à vos attentes.</p>
+                </div>
+                <div class="col-lg-4 p-2">
+                    <img class="img rounded" src="images/electric car.avif" alt="">
+                </div>
+            </div>
+        </div>
+    </article>
+  </main>
 {% endblock %}

@@ -21,19 +21,26 @@ class EmailVerifier
 
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
     {
+        // Générer la signature (lien sécurisé) pour la vérification de l'email
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
-            $verifyEmailRouteName,
-            (string) $user->getId(),
-            (string) $user->getEmail()
+            $verifyEmailRouteName,      // Le nom de la route de vérification
+            (string) $user->getId(),        // L'ID de l'utilisateur
+
+            (string) $user->getEmail()    // L'email de l'utilisateur
         );
 
+        // Récupérer le contexte de l'email
         $context = $email->getContext();
+
+        // Ajouter l'URL signée à l'email
         $context['signedUrl'] = $signatureComponents->getSignedUrl();
         $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
         $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
 
+        // Mettre à jour le contexte de l'email
         $email->context($context);
 
+        // Envoyer l'email via le service Mailer
         $this->mailer->send($email);
     }
 

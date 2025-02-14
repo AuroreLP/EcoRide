@@ -1,0 +1,19 @@
+// garder les fichiers dans l’ordre
+@use 'variables';
+@use 'mixins';
+@use 'global';
+@use 'buttons';
+@use 'header';
+@use 'footer';
+@use 'layout';
+@use 'typography';
+
+
+body {
+    background-color: variables.$background-color;
+    color: variables.$text-color;
+}
+
+.ride-search {
+    background-color: variables.$primary-color;
+}
