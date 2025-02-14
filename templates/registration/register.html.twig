@@ -4,17 +4,24 @@
 
 {% block body %}
 <div class="container m-5">
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button class="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
     {% endfor %}
-
-    <h1>Register</h1>
-
-    {{ form_errors(form) }}
+    <h1>Inscription</h1>
 
     {{ form_start(form) }}
-
-    <button class="btn btn-lg btn-primary btn-sm" type="submit">
+    {{ form_row(form.email) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.roles) }}
+    <button class="btn btn-lg btn-primary" type="submit">
         Envoyer
     </button>
     {{ form_end(form) }}
