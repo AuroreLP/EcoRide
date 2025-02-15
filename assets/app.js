@@ -9,3 +9,5 @@
 import './styles/app.css';
 import './js/dropdown';
 import './scss/main.scss';
+import './styles/styles.scss';
+
