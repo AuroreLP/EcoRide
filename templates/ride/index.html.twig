@@ -1,11 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RideController!{% endblock %}
+{% block title %}Covoiturages{% endblock %}
 
 {% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Colonne des filtres -->
+        <aside class="col-md-3">
+            <div class="filter-section">
+                <h4>Filtres</h4>
+                <label class="form-label">Prix max (€)</label>
+                <input type="range" class="form-range" min="5" max="200">
+                
+                <label class="form-label mt-2">Durée max (h)</label>
+                <input type="number" class="form-control" min="1" max="20">
+                
+                <label class="form-label mt-2">Note du conducteur</label>
+                <select class="form-select">
+                    <option>4+ étoiles</option>
+                    <option>3+ étoiles</option>
+                    <option>Toutes</option>
+                </select>
+                
+                <h4>Préférences</h4>
 
-<div class="container">
-    <h1>Hello Ecoriders ✅</h1>
-    <p>Tous les trajets compiègne-paris:</p>
+                <h6>confiance et sécurité</h6>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="ecoVoyage">
+                    <label class="form-check-label" for="profilverified">profil vérifié</label>
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="ecoVoyage">
+                    <label class="form-check-label" for="women-only">entre femmes seulement</label>
+                </div>
+
+                <h6>services et équipements</h6>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="ecoVoyage">
+                    <label class="form-check-label" for="ecoVoyage">Voyage écologique</label>
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="ecoVoyage">
+                    <label class="form-check-label" for="no-smoke">non-fumeur</label>
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="ecoVoyage">
+                    <label class="form-check-label" for="pet-friendly">animaux autorisés</label>
+                </div>
+
+            </div>
+        </aside>
+        
+        <!-- Colonne des résultats -->
+        <main class="col-md-9">
+            <h4>Résultats de recherche</h4>
+
+            <div class="trip-card">
+                <div class="row align-items-center">
+                    <div class="col-md-2">
+                        <img src="" alt="Photo conducteur" class="rounded-circle">
+                    </div>
+                    <div class="col-md-7">
+                        <h5>Username driver</h5>
+                        <p>Note : ⭐note/5</p>
+                        <p>Places restantes :  | Prix : €</p>
+                        <p>Départ : | Arrivée : </p>
+
+                        <p><span class="badge bg-success">Voyage écologique</span></p>
+
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <a href="" class="btn btn-primary">Détails</a>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
 </div>
 {% endblock %}

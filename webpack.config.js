@@ -17,12 +17,14 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
     .enableSassLoader()
+    .enablePostCssLoader() // Optionnel, pour utiliser Autoprefixer
+    .splitEntryChunks()
     .autoProvidejQuery()
-    .enableVersioning();
+    .enableVersioning()
+    .addStyleEntry('css/main', './assets/scss/main.scss');
 
 // Exporte la configuration générée par Encore
 module.exports = Encore.getWebpackConfig();
 
-Encore
 
 

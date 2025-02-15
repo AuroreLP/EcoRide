@@ -1,0 +1,13 @@
+// garder les fichiers dans l’ordre
+@use '_variables' as *;
+@use '_mixins' as *;
+
+
+body {
+    background-color: $background-color;
+    color: $text-color;
+}
+
+.ride-search {
+    background-color: $primary-color;
+}
