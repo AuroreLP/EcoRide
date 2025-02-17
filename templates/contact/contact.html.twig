@@ -3,6 +3,11 @@
 {% block title %}Nous contacter{% endblock %}
 
 {% block body %}
+
+    {% if user is defined and user %}
+        <p>Bonjour, {{ user.firstname }} !</p>
+    {% endif %}
+
 <div class="container">
     <h1>Nous contacter</h1>
 
@@ -22,8 +27,8 @@
 
     {{ form_start(form) }}
     <div class="row">
-        <div class="col-sm">{{ form_row(form.name) }}</div>
-        <div class="col-sm">{{ form_row(form.email) }}</div>
+        <div class="col-sm">{{ form_row(form.firstname) }}</div>
+        <div class="col-sm">{{ form_row(form.lastname) }}</div>
     </div>
     {{ form_end(form) }}
 

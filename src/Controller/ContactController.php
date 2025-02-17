@@ -21,24 +21,29 @@ final class ContactController extends AbstractController
 
         $form = $this->createForm(ContactType::class, $data);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()) {
             try {
             $mail = (new TemplatedEmail())
                 ->to('support@ecoride.fr')
-                ->from($data->email)
+                ->from($data->getEmail() ?: 'no-reply@ecoride.fr')
                 ->subject('Demande de contact')
-                ->htmlTemplate('emails/contact.html.twig')
+                ->text("Nom: {$data->getFirstname()} {$data->getLastname()}\nEmail: {$data->getEmail()}\nMessage: {$data->getMessage()}")
+                // ->htmlTemplate('emails/contact.html.twig')
                 ->context(['data' => $data]);
+
                 $mailer->send($mail);
                 $this->addFlash('success', 'Votre email a bien été envoyé');
-                return $this->redirectToRoute('contact');
+                
+                return $this->redirectToRoute('home');
             } catch(\Exception $e) {
                 $this->addFlash('danger', 'Impossible d\'envoyer votre email');
             }
         }
         
         return $this->render('contact/contact.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
+            'user' => $this->getUser(), // Ajout de l'utilisateur connecté
         ]);
     }
 }
