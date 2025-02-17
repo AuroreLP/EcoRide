@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class SecurityController extends AbstractController
 {
@@ -43,7 +45,7 @@ public function verifyEmail(Request $request, UserRepository $userRepository): R
     }
 
     try {
-        $this->emailVerifier->handleEmailConfirmation($request, $user);
+        $this->emailverifier->handleEmailConfirmation($request, $user);
     } catch (VerifyEmailExceptionInterface $exception) {
         $this->addFlash('danger', $exception->getReason());
 
