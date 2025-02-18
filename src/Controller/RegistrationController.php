@@ -60,10 +60,10 @@ class RegistrationController extends AbstractController
                     'app_verify_email', 
                     $user, 
                     (new TemplatedEmail())
-                        ->from(new Address('support@ecoride.fr', 'EcoRide'))
+                        ->from(new Address('no-reply@ecoride.fr', 'EcoRide'))
                         ->to($user->getEmail())
                         ->subject('Veuillez confirmer votre email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                        ->htmlTemplate('emails/confirmation_email.html.twig')
                 );
 
                 $this->addFlash('success', 'Inscription réussie ! Un email de vérification a été envoyé.');

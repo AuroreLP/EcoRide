@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank()]
     private array $roles = [];
 
-    #[ORM\OneToMany(mappedBy: 'driver', targetEntity: Car::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class, cascade: ['persist', 'remove'])]
     private Collection $cars;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -52,10 +52,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 50, unique: true)]
    private string $slug;
 
+   #[ORM\Column(type:'datetime')]
+   private $createdAt;
+
+   #[ORM\Column(type: 'string', length: 255, nullable: true)]
+   #[Assert\Image()]
+    private $photo;
+
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    private $phone;
+
+    #[ORM\Column(type: 'date')]
+    private $birthdate;
 
     public function __construct()
     {
         $this->cars = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -146,8 +165,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function addCar(Car $car): self
     {
         if (!$this->cars->contains($car)) {
-            $this->cars[] = $car;
-            $car->setDriver($this);
+            $this->cars->add($car);
+            $car->setUser($this);
         }
 
         return $this;
@@ -157,8 +176,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->cars->removeElement($car)) {
             // Désassocier la voiture de l'utilisateur
-            if ($car->getDriver() === $this) {
-                $car->setDriver(null);
+            if ($car->getUser() === $this) {
+                $car->setUser(null);
             }
         }
 
@@ -209,6 +228,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
+        return $this;
+    }
 }
 
 

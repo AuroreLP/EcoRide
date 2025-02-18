@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une voiture{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    {{ form_start(form) }}
+    {{ form_row(form.make) }}
+    {{ form_row(form.model) }}
+    {{ form_row(form.year) }}
+    {{ form_row(form.licensePlate) }}
+    <button class="btn btn-primary">Ajouter la voiture</button>
+{{ form_end(form) }}
+
+</div>
+
+{% endblock %}

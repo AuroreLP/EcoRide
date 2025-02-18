@@ -6,6 +6,7 @@ use App\Repository\CarRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
+use App\Entity\User;
 use App\Entity\Car;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
@@ -22,7 +23,7 @@ class Car
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'cars')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $driver = null;
+    private ?User $user = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank()]
@@ -71,8 +72,8 @@ class Car
     #[ORM\PreUpdate]
     public function generateSlug(): void
     {
-        if ($this->driver !== null) {
-            $this->slug = sprintf('%s-%s', $this->id ?? uniqid(), $this->driver->getId());
+        if ($this->user !== null) {
+            $this->slug = sprintf('%s-%s', $this->id ?? uniqid(), $this->user->getId());
         }
     }
 
@@ -86,14 +87,14 @@ class Car
         return $this->slug;
     }
 
-    public function getDriver(): ?User
+    public function getUser(): ?User
     {
-        return $this->driver;
+        return $this->user;
     }
 
-    public function setDriver(User $driver): self
+    public function setUser(?User $user): self
     {
-        $this->driver = $driver;
+        $this->user = $user;
         return $this;
     }
 
