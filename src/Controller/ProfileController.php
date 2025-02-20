@@ -67,14 +67,15 @@ final class ProfileController extends AbstractController
                 // mettre à jour le champ photo dans l'entité
                 $user->setPhoto($newFilename);
             }
-
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return $this->redirectToRoute('profile/{id}', ['id' => $user->getId()]);
+            return $this->redirectToRoute('profile.show', ['id' => $user->getId()]);
         }
 
         return $this->render('profile/edit.html.twig', [
             'form' => $form->createView(),
+            'user' => $user, 
         ]);
     }
 

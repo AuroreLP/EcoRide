@@ -38,7 +38,7 @@
                 {{ form_label(form.phone) }}
                 {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+            <button type="submit" class="btn btn-primary" href="{{ path('profile.show', {'id': user.id}) }}" >Enregistrer les modifications</button>
             {{ form_end(form) }}
         </div>
     </div>

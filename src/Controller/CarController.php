@@ -20,7 +20,7 @@ class CarController extends AbstractController
     {
         // Vérifie si l'utilisateur a un rôle de conducteur
         if (!in_array('ROLE_DRIVER', $user->getRoles())) {
-            return $this->redirectToRoute('home'); // redirection si ce n'est pas un conducteur
+            return $this->redirectToRoute('profile.show'); // redirection si ce n'est pas un conducteur
         }
 
         $car = new Car();
@@ -36,7 +36,7 @@ class CarController extends AbstractController
 
             $this->addFlash('success', 'Votre voiture a été ajoutée avec succès.');
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('car.show');
         }
 
         return $this->render('car/add.html.twig', [

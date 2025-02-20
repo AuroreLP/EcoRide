@@ -6,11 +6,11 @@
 
 <div class="container">
     {{ form_start(form) }}
-    {{ form_row(form.make) }}
+    {{ form_row(form.brand) }}
     {{ form_row(form.model) }}
     {{ form_row(form.year) }}
     {{ form_row(form.licensePlate) }}
-    <button class="btn btn-primary">Ajouter la voiture</button>
+    <button class="btn btn-primary" href="{{ path('car.show', {'id': car.id}) }}">Ajouter la voiture</button>
 {{ form_end(form) }}
 
 </div>
