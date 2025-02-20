@@ -5,6 +5,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[ORM\Entity]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -14,24 +18,104 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
+    #[Assert\NotBlank()]
+    private ?string $username = null;
+
+    #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank()]
+    private ?string $firstname = null;
+
+    #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank()]
+    private ?string $lastname = null;
+
+    #[ORM\Column(type: 'string', length: 100, unique: true)]
+    #[Assert\NotBlank()]
+    #[Assert\Email()]
     private ?string $email = null;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank()]
     private ?string $password = null;
 
     #[ORM\Column(type: 'json')]
+    #[Assert\NotBlank()]
     private array $roles = [];
 
-    #[ORM\Column(type: 'string', length: 50, unique: true)]
-    private ?string $username = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Car::class, cascade: ['persist', 'remove'])]
+    private Collection $cars;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $verificationToken = null;
 
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
+   private string $slug;
+
+   #[ORM\Column(type:'datetime')]
+   private $createdAt;
+
+   #[ORM\Column(type: 'string', length: 255, nullable: true)]
+   #[Assert\Image()]
+    private $photo;
+
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    private $phone;
+
+    #[ORM\Column(type: 'date')]
+    private $birthdate;
+
+    public function __construct()
+    {
+        $this->cars = new ArrayCollection();
+        $this->createdAt = new \DateTime();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTime('now');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        // Générer le slug automatiquement à partir du username
+        $this->setSlug(strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $username))));
+
+        return $this;
+    }
+
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+        return $this;
+    }
+
+    public function getLastname(): string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -73,14 +157,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
+    public function getCars(): Collection
     {
-        return $this->username;
+        return $this->cars;
     }
 
-    public function setUsername(string $username): self
+    public function addCar(Car $car): self
     {
-        $this->username = $username;
+        if (!$this->cars->contains($car)) {
+            $this->cars->add($car);
+            $car->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // Désassocier la voiture de l'utilisateur
+            if ($car->getUser() === $this) {
+                $car->setUser(null);
+            }
+        }
+
         return $this;
     }
 
@@ -105,14 +205,72 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->username;
     }
 
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
     public function eraseCredentials(): void
     {
         // Si des informations sensibles sont stockées temporairement, vous pouvez les effacer ici.
     }
 
-    public function getPasswordHash(): string
+    public function setPasswordHash(UserPasswordHasherInterface $passwordHasher, string $plainPassword): self
     {
-        // Méthode dédiée pour obtenir le hash du mot de passe
-        return $this->password;
+        $this->password = $passwordHasher->hashPassword($this,$plainPassword);
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
+        return $this;
     }
 }
+
+

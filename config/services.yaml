@@ -1,4 +1,4 @@
-parameters: { }
+parameters:
 
 services:
     # Default configuration for services in *this* file
@@ -14,6 +14,8 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    
+    App\Entity\User: '@App\Repository\UserRepository'
 
     # Déclaration explicite de EmailVerifier pour s'assurer que Symfony connaît bien ses dépendances
     App\Security\EmailVerifier:
@@ -21,3 +23,6 @@ services:
             $verifyEmailHelper: '@SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface'
             $mailer: '@mailer'
             $entityManager: '@doctrine.orm.entity_manager'
+
+parameters:
+    photos_directory: '%kernel.project_dir%/public/uploads/photos'

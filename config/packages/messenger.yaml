@@ -16,7 +16,7 @@ framework:
             sync: 'sync://'
 
         routing:
-            #Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
+            Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
             #Symfony\Component\Mailer\Messenger\ChatMessage: sync
             #Symfony\Component\Mailer\Messenger\SmsMessage: sync
 

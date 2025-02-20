@@ -9,6 +9,10 @@ app_verify_email:
     path: /verify-email
     controller: App\Controller\SecurityController::verifyEmail
 
+profile_show:
+    path: /profile/{id}
+    controller: App\Controller\ProfileController::show
+
 
 logout:
     path: /logout

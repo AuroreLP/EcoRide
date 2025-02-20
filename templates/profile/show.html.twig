@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil {{user.username}}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between">
+        <small class="text-muted">Créé le : {{ user.createdAt|date("d/m/Y H:i:s") }}</small>
+    </div>
+    <div class="card mt-2">
+        <div class="card-header">
+            <h2>Profil Utilisateur</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <img src="{{ asset('uploads/photos/' ~ user.photo) }}" alt="Photo de profil" class="img-fluid rounded-circle mb-3">
+                </div>
+                <div class="col-md-9">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Pseudo :</strong> {{ user.username }}</li>
+                        <li class="list-group-item"><strong>Prénom :</strong> {{ user.firstname }}</li>
+                        <li class="list-group-item"><strong>Nom :</strong> {{ user.lastname }}</li>
+                        <li class="list-group-item"><strong>Rôles :</strong> {{ user.roles|join(', ') }}</li>
+                        <li class="list-group-item"><strong>Date de Naissance :</strong> {{ user.birthdate|date("d/m/Y") }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a href="{{ path('profile.edit', {'id': user.id}) }}" class="btn btn-primary">Modifier le Profil</a>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex">
+        <div class="card mt-2">
+            {% if app.user and 'ROLE_CONDUCTEUR' in app.user.roles %}
+            
+                <h2>Informations de la voiture</h2>
+
+            {{ form_start(form) }}
+                {{ form_row(form.model) }}
+                {{ form_row(form.brand) }}
+                {{ form_row(form.carSeats) }}
+                {{ form_row(form.save) }}
+            {{ form_end(form) }}
+        {% endif %}
+
+        </div>
+    </div>
+        
+</div>
+{% endblock %}
